@@ -33,12 +33,12 @@ class OnboardingPage extends StatelessWidget {
                     child: AppImageView(svgPath: AppImages.security),
                   ),
                   Positioned(
-                    bottom: 0,
+                    bottom: 80,
                     right: 0,
                     child: AppImageView(svgPath: AppImages.chartSvg),
                   ),
                   Positioned(
-                    bottom: 0,
+                    bottom: 80,
                     left: 0,
                     child: AppImageView(svgPath: AppImages.depositCard),
                   ),

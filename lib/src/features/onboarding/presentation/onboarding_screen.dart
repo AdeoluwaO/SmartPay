@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smartpay/src/features/onboarding/widgets/onboarding_page.dart';
@@ -34,7 +35,17 @@ class OnboardingScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // const OnboardingPage(),
+            // Flexible(
+            //   // flex: 0,
+            //   fit: FlexFit.tight,
+            //   child: PageView(
+            //       pageSnapping: true,
+            //       children: const [
+            //         const OnboardingPage(),
+            //         const OnboardingPage(),
+            //       ],
+            //     ),
+            // ),
             CustomButton(
               text: 'Get Started',
               onTap: () {},
