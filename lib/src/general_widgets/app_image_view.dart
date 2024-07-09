@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class AppImageView extends StatelessWidget {
   ///[url] is required parameter for fetching network image
@@ -12,6 +13,9 @@ class AppImageView extends StatelessWidget {
 
   ///[imagePath] is required parameter for showing png,jpg,etc image
   String? imagePath;
+
+  ///[lottiePath] is required parameter for showing lotttie Animations
+  String? lottiePath;
 
   ///[svgPath] is required parameter for showing svg image
   String? svgPath;
@@ -50,6 +54,7 @@ class AppImageView extends StatelessWidget {
     this.border,
     this.placeHolder = 'assets/images/png/image_not_found.png',
     this.onHorizontalDrag,
+    this.lottiePath,
   });
 
   @override
@@ -152,7 +157,14 @@ class AppImageView extends StatelessWidget {
         fit: fit ?? BoxFit.cover,
         color: color,
       );
-    } 
+    } else if (lottiePath != null && lottiePath!.isNotEmpty) {
+      return Lottie.asset(
+        lottiePath!,
+        height: height,
+        width: width,
+        fit: fit ?? BoxFit.cover,
+      );
+    }
     return const SizedBox();
   }
 }

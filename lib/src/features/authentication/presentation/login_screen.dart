@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:smartpay/src/core/routers/route_generator.dart';
 import 'package:smartpay/src/core/uttils/app_images.dart';
 import 'package:smartpay/src/core/uttils/index.dart';
+import 'package:smartpay/src/features/authentication/domain/index.dart';
 import 'package:smartpay/src/features/authentication/presentation/widgets/authentication_scaffoldd.dart';
+import 'package:smartpay/src/features/authentication/provider/login_provider.dart';
 import 'package:smartpay/src/general_widgets/index.dart';
 import 'package:smartpay/src/general_widgets/spacing.dart';
 
@@ -17,12 +20,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final brightness = MediaQuery.platformBrightnessOf(context);
     bool isLightMode = brightness == Brightness.light;
-
+    final loginProvider = Provider.of<LoginProvider>(context, listen: true);
+    print('IS LOAFING IS ${loginProvider.isLoading}');
     return AuthenticationScaffold(
       title: 'Hi There! 👋',
       subbtitle: 'Welcome back, Sign in to your account',
@@ -36,24 +43,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: isLightMode ? AppColors.primaryColor : AppColors.grey50,
                 fontWeight: FontWeight.w600,
               ),
-              recognizer: TapGestureRecognizer()..onTap = () {
-                Navigator.pushReplacementNamed(context, RouteGenerator.createAccount);
-              },
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.pushReplacementNamed(
+                      context, RouteGenerator.createAccount);
+                },
             ),
           ],
-          style: theme.textTheme.bodyLarge?.copyWith(color: isLightMode ? AppColors.grey500: AppColors.grey50),
+          style: theme.textTheme.bodyLarge?.copyWith(
+              color: isLightMode ? AppColors.grey500 : AppColors.grey50),
         ),
       ),
       children: [
         CustomTextField(
           hintText: 'Email',
-          onChange: (p0) {},
+          controller: emailController,
         ),
         const Spacing.mediumHeight(),
         CustomTextField(
           hintText: 'Password',
           obscureText: obscureText,
-          onChange: (p0) {},
+          controller: passwordController,
           suffixIcon: CustomIcon(
             icon: obscureText ? Icons.visibility_off : Icons.visibility,
             onTap: () {
@@ -77,7 +87,15 @@ class _LoginScreenState extends State<LoginScreen> {
         const Spacing.bigHeight(),
         CustomButton(
           text: 'Sign In',
-          onTap: () {},
+          isLoading: loginProvider.isLoading,
+          isEnabled: !loginProvider.isLoading,
+          onTap: () {
+            final params = LoginParams(
+                email: emailController.text,
+                password: passwordController.text,
+                deviceName: 'mobile');
+            loginProvider.loginUser(params);
+          },
           // isEnabled: false,
         ),
         const Spacing.largeHeight(),
@@ -115,7 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ],
-        )
+        ),
+        if (loginProvider.isLoading) const LoadingOverlay()
       ],
     );
   }

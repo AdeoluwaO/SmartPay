@@ -21,5 +21,6 @@ class AppImages {
   static const deviceImage1 = 'assets/images/png/device.png';  
 
   /*ANIMATIONS*/
+  static const loadingAnimation = 'assets/animations/loading.json';  
   
 }

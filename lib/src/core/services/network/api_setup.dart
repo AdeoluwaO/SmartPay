@@ -12,8 +12,8 @@ Future<T?> sendRequest<T>({
 }) async {
   final methodToUppercase = method.toUpperCase();
   try {
-    //https://fakestoreapi.com
-    final baseApiSetup = Dio(BaseOptions(baseUrl: 'https://mobile-test-2d7e555a4f85.herokuapp.com/api/v1'));
+    final baseApiSetup = Dio(BaseOptions(
+        baseUrl: 'https://mobile-test-2d7e555a4f85.herokuapp.com/api/v1'));
     /*RUN A CHECK IF TOKEN IS NOT EMPTY 
     MEANING THE USER WOULD HAVE PROBABLY AUTHENTICATED
     if(token.isNotEmpty) headers: {"Authorization": "Bearer $testToken""}: null;
@@ -31,6 +31,7 @@ Future<T?> sendRequest<T>({
             method: methodToUppercase,
             headers:
                 requiresAuth ? {"Authorization": "Bearer $testToken"} : null,
+            contentType: Headers.formUrlEncodedContentType,
           ),
       data: data ?? {},
     );

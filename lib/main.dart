@@ -3,9 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smartpay/src/core/routers/route_generator.dart';
 import 'package:smartpay/src/core/uttils/index.dart';
 import 'package:smartpay/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:smartpay/app_providers.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers:appProviders,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
