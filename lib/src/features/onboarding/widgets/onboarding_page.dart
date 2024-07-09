@@ -5,7 +5,15 @@ import 'package:smartpay/src/general_widgets/index.dart';
 import 'package:smartpay/src/general_widgets/spacing.dart';
 
 class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key});
+  const OnboardingPage({
+    super.key,
+    required this.backgroundImage,
+    required this.title,
+    required this.subtitle,
+    required this.children,
+  });
+  final String title, subtitle, backgroundImage;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +25,7 @@ class OnboardingPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: isLightMode ? AppColors.grey50 : null,
-          image:
-              const DecorationImage(image: AssetImage(AppImages.deviceImage1))),
+          image: DecorationImage(image: AssetImage(backgroundImage))),
       child: Stack(
         children: [
           Align(
@@ -26,30 +33,15 @@ class OnboardingPage extends StatelessWidget {
             child: SizedBox(
               height: (size.height * 0.5),
               child: Stack(
-                children: [
-                  Positioned(
-                    top: 150,
-                    left: 46,
-                    child: AppImageView(svgPath: AppImages.security),
-                  ),
-                  Positioned(
-                    bottom: 80,
-                    right: 0,
-                    child: AppImageView(svgPath: AppImages.chartSvg),
-                  ),
-                  Positioned(
-                    bottom: 80,
-                    left: 0,
-                    child: AppImageView(svgPath: AppImages.depositCard),
-                  ),
-                ],
+                children: children,
               ),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: (size.height * 0.4),
+              height: (size.height * 0.3),
+              width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -64,9 +56,31 @@ class OnboardingPage extends StatelessWidget {
                   ],
                 ),
               ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                    text: title,
+                    style: theme.textTheme.displayLarge?.copyWith(
+                      color: isLightMode ? AppColors.grey900 : AppColors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Spacing.mediumHeight(),
+                  CustomText(
+                    text: subtitle,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: isLightMode
+                          ? AppColors.grey500
+                          : AppColors.white.withOpacity(0.6),
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
             ),
           ),
-          
         ],
       ),
     );

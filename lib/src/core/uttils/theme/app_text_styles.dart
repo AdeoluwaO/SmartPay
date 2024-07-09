@@ -53,7 +53,7 @@ class AppTextStyle {
     fontSize: 16,
     fontFamily: 'SFDisplay',
     color: AppColors.white,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w400,
   );
   static TextStyle bodyMedium = TextStyle(
     fontSize: 14,

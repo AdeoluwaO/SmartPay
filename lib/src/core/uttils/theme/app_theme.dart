@@ -3,6 +3,9 @@ import 'package:smartpay/src/core/uttils/index.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
+    appBarTheme: AppBarTheme(backgroundColor: AppColors.white),
+    iconTheme: IconThemeData(color: AppColors.grey500),
+    iconButtonTheme: IconButtonThemeData(style: ButtonStyle(iconColor: MaterialStatePropertyAll(AppColors.grey500))),
     colorScheme: ColorScheme.light(
       background: AppColors.white,
       error: AppColors.error,
@@ -27,10 +30,13 @@ class AppTheme {
   );
 
   static final darkTheme = ThemeData(
+    appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor),
+    iconTheme: IconThemeData(color: AppColors.grey50),
+    iconButtonTheme: IconButtonThemeData(style: ButtonStyle(iconColor: MaterialStatePropertyAll(AppColors.grey50))),
     colorScheme: ColorScheme.dark(
       background: AppColors.primaryColor,
       error: AppColors.error,
-      primary: AppColors.primaryColor,
+      primary: AppColors.grey50,
       secondary: AppColors.secondaryColor,
       brightness: Brightness.dark,
       surface: AppColors.grey50,

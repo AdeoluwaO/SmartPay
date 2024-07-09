@@ -11,9 +11,11 @@ class AppImages {
   static const paymentCard = 'assets/images/svg/payment_card.svg';
   static const profileCard = 'assets/images/svg/profile.svg';
   static const security = 'assets/images/svg/security.svg';
-  static const success = 'assets/images/svg/success.svg';
+  static const rightLine = 'assets/images/svg/right_line.svg';
+  static const leftLine = 'assets/images/svg/left_line.svg';
 
   /*PNGS*/
+  static const success = 'assets/images/png/success.png';
   static const smartPayLogoPng = 'assets/images/png/logo.png';
   static const deviceImage2 = 'assets/images/png/device_two.png';
   static const deviceImage1 = 'assets/images/png/device.png';  

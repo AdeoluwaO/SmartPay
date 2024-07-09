@@ -4,7 +4,7 @@ extension TextThemeExtension  on TextTheme {
   //NOTE: STYLE NAMES ARE CUSTOM
   // TEXT STYLES NAME IN 'app_text_styles.dart
   TextStyle? getStyle(String styleName) {
-    print('STYLE NAME IS $styleName');
+    // print('STYLE NAME IS $styleName');
     switch (styleName) {
       case 'header1':
         return headlineLarge;

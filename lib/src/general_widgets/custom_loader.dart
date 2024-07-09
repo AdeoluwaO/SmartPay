@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppLoader extends StatefulWidget {
-  const AppLoader({
+class CustomLoader extends StatefulWidget {
+  const CustomLoader({
     Key? key,
     this.color,
     this.size = 35,
@@ -11,10 +11,10 @@ class AppLoader extends StatefulWidget {
   final double size;
 
   @override
-  State<AppLoader> createState() => _AppLoaderState();
+  State<CustomLoader> createState() => _CustomLoaderState();
 }
 
-class _AppLoaderState extends State<AppLoader>
+class _CustomLoaderState extends State<CustomLoader>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   @override

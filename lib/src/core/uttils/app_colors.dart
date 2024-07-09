@@ -9,6 +9,8 @@ class AppColors {
   static Color illusion = _fromHex('F092AD');
   static Color sussie = _fromHex('55BBC5');
   static Color blueJeans = _fromHex('5FA8EE');
+  static Color aquamarine = _fromHex('2FA2B9');
+  static Color transparent = Colors.transparent;
  
   //ALERTS
   static Color success = _fromHex('4ADE80');
@@ -26,7 +28,6 @@ class AppColors {
   static Color grey700 = _fromHex('374151');
   static Color grey800 = _fromHex('1F2937');
   static Color grey900 = _fromHex('111827');
-  static Color inputBoarderColor = _fromHex('2FA2B9');
 }
   Color _fromHex(String hexString) {
     final buffer = StringBuffer();
