@@ -7,4 +7,29 @@ class AuthData implements AuthRepo {
     final response = await DomainAuth.loginUser(params);
     return response.data ?? LoginResponse();
   }
+
+  @override
+  Future<CreateAccountResponse> createAccount(SignupParams params) async {
+    final response = await DomainAuth.registerUser(params);
+    return response.data ?? CreateAccountResponse();
+  }
+
+  @override
+  Future<GetTokenResponse> getEmailToken(SignupParams params) async {
+    final response = await DomainAuth.getEmailToken(params);
+    return response.data ?? GetTokenResponse();
+  }
+
+  @override
+  Future<VerifyEmailResponse> verifyEmail(SignupParams params) async {
+    final response = await DomainAuth.verifyEmailToken(params);
+    return response.data ?? VerifyEmailResponse();
+  }
+  
+  @override
+  Future<BaseResponse> logout() async {
+    final response = await DomainAuth.logout();
+    return response.data ?? BaseResponse();
+  
+  }
 }

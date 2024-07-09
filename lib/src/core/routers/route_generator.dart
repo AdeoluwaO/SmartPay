@@ -26,11 +26,13 @@ class RouteGenerator {
       case createAccount:
         return trasnsitionRouter(screenWidget: const CreateAccountScreen());
       case bioData:
-        return trasnsitionRouter(screenWidget: const BioDataScreen());
+      final email = settings.arguments as String;
+        return trasnsitionRouter(screenWidget:  BioDataScreen(email: email));
       case setupPin:
         return trasnsitionRouter(screenWidget: const SetupPinScreen());
       case verifyEmail:
-        return trasnsitionRouter(screenWidget: const VerifyEmailScreen());
+      final email = settings.arguments as String;
+        return trasnsitionRouter(screenWidget:  VerifyEmailScreen(email: email));
       case success:
         return trasnsitionRouter(screenWidget: const SuccessScreen());
       //FORGOT PASSWORD

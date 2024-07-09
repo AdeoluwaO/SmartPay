@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartpay/src/core/routers/route_generator.dart';
+import 'package:smartpay/src/features/authentication/domain/index.dart';
 import 'package:smartpay/src/features/authentication/presentation/widgets/authentication_scaffoldd.dart';
+import 'package:smartpay/src/features/authentication/provider/signup_provider.dart';
 import 'package:smartpay/src/general_widgets/index.dart';
 import 'package:smartpay/src/general_widgets/spacing.dart';
 
 class BioDataScreen extends StatefulWidget {
-  const BioDataScreen({super.key});
+  const BioDataScreen({super.key, required this.email});
+  final String email;
 
   @override
   State<BioDataScreen> createState() => _BioDataScreenState();
@@ -13,9 +17,17 @@ class BioDataScreen extends StatefulWidget {
 
 class _BioDataScreenState extends State<BioDataScreen> {
   bool obscureText = true;
+
+  final fullNameController = TextEditingController();
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  String? country;
   @override
   Widget build(BuildContext context) {
-
+    final signupProvider = Provider.of<SignupProvider>(context, listen: true);
+    final state = context.watch<SignupProvider>();
+    print('PASSED IN EMAIL ${widget.email} BIO DATA ');
     return AuthenticationScaffold(
       title: 'Hey there! tell us a bit\nabout yourself',
       subbtitle: '',
@@ -23,12 +35,12 @@ class _BioDataScreenState extends State<BioDataScreen> {
       children: [
         CustomTextField(
           hintText: 'Full name',
-          onChange: (p0) {},
+          controller: fullNameController,
         ),
         const Spacing.mediumHeight(),
         CustomTextField(
           hintText: 'Username',
-          onChange: (p0) {},
+          controller: userNameController,
         ),
         const Spacing.mediumHeight(),
         CustomTextField(
@@ -39,7 +51,7 @@ class _BioDataScreenState extends State<BioDataScreen> {
         CustomTextField(
           hintText: 'Password',
           obscureText: obscureText,
-          onChange: (p0) {},
+          controller: passwordController,
           suffixIcon: CustomIcon(
             icon: obscureText ? Icons.visibility_off : Icons.visibility,
             onTap: () {
@@ -53,9 +65,20 @@ class _BioDataScreenState extends State<BioDataScreen> {
         CustomButton(
           text: 'Confirm',
           onTap: () {
+            signupProvider.createUser(
+              SignupParams(
+                fullName: fullNameController.text,
+                username: userNameController.text,
+                email: '',
+                country: country,
+                password: passwordController.text,
+                deviceName: '',
+              ),
+            );
             Navigator.pushNamed(context, RouteGenerator.setupPin);
           },
-        )
+        ),
+        if (state.isLoading) const LoadingOverlay()
       ],
     );
   }

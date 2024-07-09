@@ -11,8 +11,9 @@ class LoginProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     final response = await AuthData().loginUser(params);
-    _loginData = response;
     isLoading = false;
+    notifyListeners();
+    _loginData = response;
     notifyListeners();
   }
 }

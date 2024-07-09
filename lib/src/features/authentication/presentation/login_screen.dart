@@ -29,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final brightness = MediaQuery.platformBrightnessOf(context);
     bool isLightMode = brightness == Brightness.light;
     final loginProvider = Provider.of<LoginProvider>(context, listen: true);
+    final state = context.watch<LoginProvider>();
     print('IS LOAFING IS ${loginProvider.isLoading}');
     return AuthenticationScaffold(
       title: 'Hi There! 👋',
@@ -95,6 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 password: passwordController.text,
                 deviceName: 'mobile');
             loginProvider.loginUser(params);
+            if(state.loginData!.token != null && state.loginData!.token!.isNotEmpty) {
+              //GO TO HOMR
+            }
           },
           // isEnabled: false,
         ),
@@ -134,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ],
         ),
-        if (loginProvider.isLoading) const LoadingOverlay()
+        if (state.isLoading) const LoadingOverlay()
       ],
     );
   }

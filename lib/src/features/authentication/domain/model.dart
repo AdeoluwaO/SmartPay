@@ -1,42 +1,19 @@
 class LoginParams {
-    LoginParams({
-        required this.email,
-        required this.password,
-        required this.deviceName,
-    });
+  LoginParams({
+    this.email,
+    this.password,
+    this.deviceName,
+  });
 
-    final String? email;
-    final String? password;
-    final String? deviceName;
-
-    LoginParams copyWith({
-        String? email,
-        String? password,
-        String? deviceName,
-    }) {
-        return LoginParams(
-            email: email ?? this.email,
-            password: password ?? this.password,
-            deviceName: deviceName ?? this.deviceName,
-        );
-    }
-
-    factory LoginParams.fromJson(Map<String, dynamic> json){ 
-        return LoginParams(
-            email: json["email"],
-            password: json["password"],
-            deviceName: json["device_name"],
-        );
-    }
-
-    Map<String, dynamic> toJson() => {
+  final String? email;
+  final String? password;
+  final String? deviceName;
+  Map<String, dynamic> toJson() => {
         "email": email,
         "password": password,
         "device_name": deviceName,
-    };
-
+      };
 }
-
 
 class LoginResponse {
   LoginResponse({
@@ -135,5 +112,118 @@ class User {
         "phone_country": phoneCountry,
         "country": country,
         "avatar": avatar,
+      };
+}
+
+class SignupParams {
+  SignupParams({
+    this.fullName,
+    this.username,
+    this.email,
+    this.country,
+    this.password,
+    this.deviceName,
+    this.otp,
+  });
+  final String? fullName;
+  final String? username;
+  final String? email;
+  final String? country;
+  final String? password;
+  final String? deviceName;
+  final String? otp;
+
+  Map<String, dynamic> toJson() => {
+        "full_name": fullName,
+        "username": username,
+        "email": email,
+        "country": country,
+        "password": password,
+        "otp": otp,
+        "device_name": deviceName,
+      };
+}
+
+class GetTokenResponse {
+  GetTokenResponse({
+    this.token,
+  });
+
+  final String? token;
+
+  GetTokenResponse copyWith({
+    String? token,
+  }) {
+    return GetTokenResponse(
+      token: token ?? this.token,
+    );
+  }
+
+  factory GetTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetTokenResponse(
+      token: json["token"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "token": token,
+      };
+}
+
+class VerifyEmailResponse {
+  VerifyEmailResponse({
+    this.email,
+  });
+
+  final String? email;
+
+  VerifyEmailResponse copyWith({
+    String? email,
+  }) {
+    return VerifyEmailResponse(
+      email: email ?? this.email,
+    );
+  }
+
+  factory VerifyEmailResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyEmailResponse(
+      email: json["email"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+      };
+}
+
+class CreateAccountResponse {
+  CreateAccountResponse({
+    this.user,
+    this.token,
+  });
+
+  final User? user;
+  final String? token;
+
+  CreateAccountResponse copyWith({
+    User? user,
+    String? token,
+  }) {
+    return CreateAccountResponse(
+      user: user ?? this.user,
+      token: token ?? this.token,
+    );
+  }
+
+  factory CreateAccountResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAccountResponse(
+      user: json["user"] == null ? null : User.fromJson(json["user"]),
+      token: json["token"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "user": user?.toJson(),
+        "token": token,
       };
 }
