@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smartpay/src/core/uttils/app_images.dart';
 import 'package:smartpay/src/general_widgets/index.dart';
 
@@ -21,15 +22,9 @@ class _LoadingOverlayState extends State<LoadingOverlay> {
     return OverlayPortal(
       controller: _overlayController,
       overlayChildBuilder: (context) {
-        return Positioned(
-          bottom: 0,
-          top: 0,
-          left: 0,
-          right: 0,
-          child: SizedBox(
-            child: AppImageView(
-              lottiePath: AppImages.loadingAnimation,
-            ),
+        return Center(
+          child: AppImageView(
+            lottiePath: AppImages.loadingAnimation,
           ),
         );
       },
