@@ -12,3 +12,6 @@ export 'package:smartpay/src/features/authentication/presentation/forgot_passwor
 
 //LOGIN  
 export 'package:smartpay/src/features/authentication/presentation/login_screen.dart';
+
+//DASHBOARRD
+export 'package:smartpay/src/features/dashboard/presentation/dashboard.dart';

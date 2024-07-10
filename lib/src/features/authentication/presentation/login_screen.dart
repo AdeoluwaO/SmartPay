@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.loginData != null) {
               //GO TO HOMR
               print('TAKING TO ');
-              // Navigator.pushReplacementNamed(context, RouteGenerator.setupPin);
+              Navigator.pushReplacementNamed(context, RouteGenerator.setupPin, arguments: true);
             }
           },
           // isEnabled: false,

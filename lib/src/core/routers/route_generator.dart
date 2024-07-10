@@ -16,7 +16,8 @@ class RouteGenerator {
   static const forgotPassword = 'forgot_password';
   static const createNewPassword = 'create_new_password';
   static const verifyIdentity = 'verify_identity';
-
+  //DASHBOARD
+  static const dashboard = 'dashboard';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -27,14 +28,22 @@ class RouteGenerator {
       case createAccount:
         return trasnsitionRouter(screenWidget: const CreateAccountScreen());
       case bioData:
-      final params = settings.arguments as SignupParams;
-        return trasnsitionRouter(screenWidget:  BioDataScreen(params: params));
+        final params = settings.arguments as SignupParams;
+        return trasnsitionRouter(screenWidget: BioDataScreen(params: params));
       case setupPin:
-        return trasnsitionRouter(screenWidget: const SetupPinScreen());
+        final params = settings.arguments as bool;
+        return trasnsitionRouter(
+            fullscreenDialog: true,
+            screenWidget: SetupPinScreen(
+              isFromLogin: params,
+            ));
       case verifyEmail:
-      final params = settings.arguments as SignupParams;
-      
-        return trasnsitionRouter(screenWidget:  VerifyEmailScreen(params: params,));
+        final params = settings.arguments as SignupParams;
+
+        return trasnsitionRouter(
+            screenWidget: VerifyEmailScreen(
+          params: params,
+        ));
       case success:
         return trasnsitionRouter(screenWidget: const SuccessScreen());
       //FORGOT PASSWORD
@@ -44,12 +53,18 @@ class RouteGenerator {
         return trasnsitionRouter(screenWidget: const CreatePasswordScreen());
       case verifyIdentity:
         return trasnsitionRouter(screenWidget: const VerifyIdentityScreen());
+      //DASHBOARD
+      case dashboard:
+        return trasnsitionRouter(screenWidget: const DashboardScreen());
+
       default:
         throw UnimplementedError('Route not found');
     }
   }
 }
 
-trasnsitionRouter({required Widget screenWidget}) {
-  return CupertinoPageRoute(builder: (context) => screenWidget);
+trasnsitionRouter(
+    {required Widget screenWidget, bool fullscreenDialog = false}) {
+  return CupertinoPageRoute(
+      fullscreenDialog: fullscreenDialog, builder: (context) => screenWidget);
 }

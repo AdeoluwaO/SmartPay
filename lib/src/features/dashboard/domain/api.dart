@@ -3,8 +3,8 @@ import 'package:smartpay/src/core/services/network/api_endpoint.dart';
 import 'package:smartpay/src/core/services/network/api_setup.dart';
 import 'package:smartpay/src/features/dashboard/domain/index.dart';
 
-class DomainDashboard {
-  static Future<BaseResponse<HomePageData>> loginUser() async {
+class DomainHome {
+  static Future<BaseResponse<HomePageData>> getSecretInfo() async {
     final response = await sendRequest(
         method: 'post', endpoint: ApiEndpoints.dashboard, requiresAuth: false);
     print('RAW REPOSEN $response');
