@@ -23,6 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final _loginKey = GlobalKey<FormState>();
+
+  bool isEnabled = false;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -30,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     bool isLightMode = brightness == Brightness.light;
     final loginProvider = Provider.of<LoginProvider>(context, listen: true);
     final state = context.watch<LoginProvider>();
+    
     print('IS LOAFING IS ${loginProvider.isLoading}');
     return AuthenticationScaffold(
       title: 'Hi There! 👋',
@@ -56,48 +61,64 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       children: [
-        CustomTextField(
-          hintText: 'Email',
-          controller: emailController,
-        ),
-        const Spacing.mediumHeight(),
-        CustomTextField(
-          hintText: 'Password',
-          obscureText: obscureText,
-          controller: passwordController,
-          suffixIcon: CustomIcon(
-            icon: obscureText ? Icons.visibility_off : Icons.visibility,
-            onTap: () {
+        Form(
+            key: _loginKey,
+            onChanged: () {
               setState(() {
-                obscureText = !obscureText;
+                isEnabled = _loginKey.currentState!.validate();
               });
             },
-          ),
-        ),
-        const Spacing.bigHeight(),
-        CustomText(
-          text: 'Forgot Password?',
-          onTap: () {
-            Navigator.pushNamed(context, RouteGenerator.forgotPassword);
-          },
-          style: AppTextStyle.bodyLarge.copyWith(
-            color: theme.colorScheme.primary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  hintText: 'Email',
+                  controller: emailController,
+                  validateFunction: AppValidators.email(),
+                ),
+                const Spacing.mediumHeight(),
+                CustomTextField(
+                  hintText: 'Password',
+                  obscureText: obscureText,
+                  controller: passwordController,
+                  validateFunction: AppValidators.minLength(6),
+                  suffixIcon: CustomIcon(
+                    icon: obscureText ? Icons.visibility_off : Icons.visibility,
+                    onTap: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                  ),
+                ),
+                const Spacing.bigHeight(),
+                CustomText(
+                  text: 'Forgot Password?',
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteGenerator.forgotPassword);
+                  },
+                  style: AppTextStyle.bodyLarge.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            )),
         const Spacing.bigHeight(),
         CustomButton(
           text: 'Sign In',
-          isLoading: loginProvider.isLoading,
-          isEnabled: !loginProvider.isLoading,
-          onTap: () {
+          isLoading: state.isLoading,
+          isEnabled: isEnabled,
+          onTap: () async {
             final params = LoginParams(
                 email: emailController.text,
                 password: passwordController.text,
                 deviceName: 'mobile');
-            loginProvider.loginUser(params);
-            if(state.loginData!.token != null && state.loginData!.token!.isNotEmpty) {
+            await loginProvider.loginUser(params);
+            if (state.loginData != null) {
               //GO TO HOMR
+              print('TAKING TO ');
+              // Navigator.pushReplacementNamed(context, RouteGenerator.setupPin);
             }
           },
           // isEnabled: false,

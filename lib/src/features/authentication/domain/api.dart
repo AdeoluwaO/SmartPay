@@ -12,13 +12,18 @@ class DomainAuth {
         requiresAuth: false,
         data: params.toJson());
     print('RAW REPOSEN $response');
-    final BaseResponse<LoginResponse> loginResponse = BaseResponse(
-      data: LoginResponse.fromJson(response['data']),
-      status: response['status'],
-      message: response['message'],
-    );
-    print('MODELLED REPOSEN ${loginResponse.data?.toJson()}');
-    return loginResponse;
+    if (response != null) {
+      final BaseResponse<LoginResponse> loginResponse = BaseResponse(
+        data: LoginResponse.fromJson(response['data']),
+        status: response['status'],
+        message: response['message'],
+      );
+      print('MODELLED REPOSEN ${loginResponse.data?.toJson()}');
+      return loginResponse;
+    }
+    else {
+      return const BaseResponse();
+    }
   }
 
   static Future<BaseResponse<GetTokenResponse>> getEmailToken(
@@ -29,7 +34,9 @@ class DomainAuth {
       requiresAuth: false,
       data: {"email": params.email},
     );
-    print('RAW REPOSEN $response');
+    print('RAW REPOSEN $response'); 
+    if (response != null) {
+    
     final BaseResponse<GetTokenResponse> getTokenResponse = BaseResponse(
       data: GetTokenResponse.fromJson(response['data']),
       status: response['status'],
@@ -37,6 +44,10 @@ class DomainAuth {
     );
     print('MODELLED REPOSEN ${getTokenResponse.data?.toJson()}');
     return getTokenResponse;
+    }
+    else {
+      return const BaseResponse();
+    }
   }
 
   static Future<BaseResponse<VerifyEmailResponse>> verifyEmailToken(
@@ -51,6 +62,7 @@ class DomainAuth {
       },
     );
     print('RAW REPOSEN $response');
+    
     final BaseResponse<VerifyEmailResponse> verifyEmailResponse = BaseResponse(
       data: VerifyEmailResponse.fromJson(response['data']),
       status: response['status'],
@@ -69,7 +81,8 @@ class DomainAuth {
       data: params.toJson(),
     );
     print('RAW REPOSEN $response');
-    final BaseResponse<CreateAccountResponse> createAccountResponse = BaseResponse(
+    final BaseResponse<CreateAccountResponse> createAccountResponse =
+        BaseResponse(
       data: CreateAccountResponse.fromJson(response['data']),
       status: response['status'],
       message: response['message'],
@@ -86,7 +99,7 @@ class DomainAuth {
     );
     print('RAW REPOSEN $response');
     final BaseResponse logoutResponse = BaseResponse(
-      data:[],
+      data: [],
       status: response['status'],
       message: response['message'],
     );

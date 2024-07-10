@@ -19,7 +19,9 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  final _createAccountKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
+  bool isEnabled = false;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -55,26 +57,50 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         ),
       ),
       children: [
-        CustomTextField(
-          hintText: 'Email',
-          controller: emailController,
-          onChange: (p0) {
-            setState(() {});
+        Form(
+          key: _createAccountKey,
+          onChanged: () {
+            setState(() {
+              isEnabled = _createAccountKey.currentState!.validate();
+            });
           },
+          child: CustomTextField(
+            hintText: 'Email',
+            controller: emailController,
+            validateFunction: AppValidators.email(),
+          ),
         ),
         const Spacing.bigHeight(),
         CustomButton(
           text: 'Sign Up',
-          isEnabled: emailController.text.isNotEmpty ? true : false,
-          onTap: () {
-            signupProvider
+          isEnabled: isEnabled,
+          onTap: () async {
+            await signupProvider
                 .getEmailToken(SignupParams(email: emailController.text));
             // print('RESPONSE IS ${signupProvider.tokenResponse?.token}');
             if (state.isLoading == false) {
               if (state.tokenResponse?.token != null &&
                   state.tokenResponse!.token!.isNotEmpty) {
                 Navigator.pushNamed(context, RouteGenerator.verifyEmail,
-                    arguments: emailController.text);
+                    arguments: SignupParams(
+                        email: emailController.text,
+                        otp: state.tokenResponse?.token));
+
+                Future.delayed(
+                  const Duration(seconds: 1),
+                  () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AppDialogue(
+                          title: 'CODE',
+                          message: state.tokenResponse!.token.toString(),
+                          height: 200.h,
+                        );
+                      },
+                    );
+                  },
+                );
               }
             }
           },

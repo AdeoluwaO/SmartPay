@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartpay/src/core/routers/route_generator.dart';
+import 'package:smartpay/src/core/uttils/index.dart';
 import 'package:smartpay/src/features/authentication/domain/index.dart';
 import 'package:smartpay/src/features/authentication/presentation/widgets/authentication_scaffoldd.dart';
 import 'package:smartpay/src/features/authentication/provider/signup_provider.dart';
@@ -8,8 +9,8 @@ import 'package:smartpay/src/general_widgets/index.dart';
 import 'package:smartpay/src/general_widgets/spacing.dart';
 
 class BioDataScreen extends StatefulWidget {
-  const BioDataScreen({super.key, required this.email});
-  final String email;
+  const BioDataScreen({super.key, required this.params});
+  final SignupParams params;
 
   @override
   State<BioDataScreen> createState() => _BioDataScreenState();
@@ -17,6 +18,9 @@ class BioDataScreen extends StatefulWidget {
 
 class _BioDataScreenState extends State<BioDataScreen> {
   bool obscureText = true;
+  bool isEnabled = false;
+  String? selectedCountry;
+  final _bioDataKey = GlobalKey<FormState>();
 
   final fullNameController = TextEditingController();
   final userNameController = TextEditingController();
@@ -27,55 +31,80 @@ class _BioDataScreenState extends State<BioDataScreen> {
   Widget build(BuildContext context) {
     final signupProvider = Provider.of<SignupProvider>(context, listen: true);
     final state = context.watch<SignupProvider>();
-    print('PASSED IN EMAIL ${widget.email} BIO DATA ');
+    print('PASSED IN EMAIL ${widget.params} BIO DATA ');
     return AuthenticationScaffold(
       title: 'Hey there! tell us a bit\nabout yourself',
       subbtitle: '',
       showAppBar: true,
       children: [
-        CustomTextField(
-          hintText: 'Full name',
-          controller: fullNameController,
-        ),
-        const Spacing.mediumHeight(),
-        CustomTextField(
-          hintText: 'Username',
-          controller: userNameController,
-        ),
-        const Spacing.mediumHeight(),
-        CustomTextField(
-          hintText: 'Select Country',
-          onChange: (p0) {},
-        ),
-        const Spacing.mediumHeight(),
-        CustomTextField(
-          hintText: 'Password',
-          obscureText: obscureText,
-          controller: passwordController,
-          suffixIcon: CustomIcon(
-            icon: obscureText ? Icons.visibility_off : Icons.visibility,
-            onTap: () {
-              setState(() {
-                obscureText = !obscureText;
-              });
-            },
+        Form(
+          key: _bioDataKey,
+          onChanged: () {
+            setState(() {
+              isEnabled = _bioDataKey.currentState!.validate();
+            });
+          },
+          child: Column(
+            children: [
+              CustomTextField(
+                hintText: 'Full name',
+                controller: fullNameController,
+                validateFunction: AppValidators.notEmpty(),
+              ),
+              const Spacing.mediumHeight(),
+              CustomTextField(
+                hintText: 'Username',
+                controller: userNameController,
+                validateFunction: AppValidators.notEmpty(),
+              ),
+              const Spacing.mediumHeight(),
+              CustomCountryPicker(
+                hintText: 'Select Country',
+                onCountryChanged: (p0) {
+                  selectedCountry = p0;
+                },
+              ),
+              const Spacing.mediumHeight(),
+              CustomTextField(
+                hintText: 'Password',
+                obscureText: obscureText,
+                controller: passwordController,
+                validateFunction: AppValidators.minLength(6),
+                suffixIcon: CustomIcon(
+                  icon: obscureText ? Icons.visibility_off : Icons.visibility,
+                  onTap: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         const Spacing.bigHeight(),
         CustomButton(
           text: 'Confirm',
-          onTap: () {
-            signupProvider.createUser(
-              SignupParams(
-                fullName: fullNameController.text,
-                username: userNameController.text,
-                email: '',
-                country: country,
-                password: passwordController.text,
-                deviceName: '',
-              ),
-            );
-            Navigator.pushNamed(context, RouteGenerator.setupPin);
+          isEnabled: isEnabled,
+          onTap: () async {
+            if (selectedCountry == null || selectedCountry!.isEmpty) {
+              showToast(message: 'Please Select a Country', isError: true);
+              return;
+            } else {
+              await signupProvider.createUser(
+                SignupParams(
+                  fullName: fullNameController.text,
+                  username: userNameController.text,
+                  email: widget.params.email,
+                  country: country,
+                  password: passwordController.text,
+                  deviceName: 'mobile',
+                ),
+              );
+              if (state.createAccountResponse != null) {
+                Navigator.pushNamed(context, RouteGenerator.setupPin);
+              }
+            }
           },
         ),
         if (state.isLoading) const LoadingOverlay()

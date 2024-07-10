@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:smartpay/src/core/routers/route_exports.dart';
+import 'package:smartpay/src/features/authentication/domain/index.dart';
 
 class RouteGenerator {
   const RouteGenerator._();
@@ -26,13 +27,14 @@ class RouteGenerator {
       case createAccount:
         return trasnsitionRouter(screenWidget: const CreateAccountScreen());
       case bioData:
-      final email = settings.arguments as String;
-        return trasnsitionRouter(screenWidget:  BioDataScreen(email: email));
+      final params = settings.arguments as SignupParams;
+        return trasnsitionRouter(screenWidget:  BioDataScreen(params: params));
       case setupPin:
         return trasnsitionRouter(screenWidget: const SetupPinScreen());
       case verifyEmail:
-      final email = settings.arguments as String;
-        return trasnsitionRouter(screenWidget:  VerifyEmailScreen(email: email));
+      final params = settings.arguments as SignupParams;
+      
+        return trasnsitionRouter(screenWidget:  VerifyEmailScreen(params: params,));
       case success:
         return trasnsitionRouter(screenWidget: const SuccessScreen());
       //FORGOT PASSWORD

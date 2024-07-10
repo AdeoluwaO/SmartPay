@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:smartpay/src/general_widgets/index.dart';
 
-//TODO: USE TRY TO INTERCEPTORS FOR API CALLS WITH TOKEN
-//TODO: WHEN A  USER WANTS TO DOWNLOAD CONTENT HOW WOULD API HANDLE IT
+
 Future<T?> sendRequest<T>({
   required String method,
   required String endpoint,
@@ -21,11 +21,6 @@ Future<T?> sendRequest<T>({
     final testToken = 'Adeoluwa';
     final response = await baseApiSetup.request(
       endpoint,
-      queryParameters: {
-        ...?queryParams,
-        'encode': 'url3986',
-        'difficulty': 'easy'
-      },
       options: options ??
           Options(
             method: methodToUppercase,
@@ -38,8 +33,6 @@ Future<T?> sendRequest<T>({
     print('DECODED RESPONSE ${response.data}');
     return response.data as T;
   } on DioException catch (e) {
-    // showToast(message: e.toString(), isError: true);
-    // print('API ERROR IS THIS $e');
-    return e as T;
+    showToast(message: e.message.toString(), isError: true);
   }
 }

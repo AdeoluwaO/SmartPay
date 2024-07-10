@@ -22,9 +22,10 @@ dependencies:
   dio: ^5.5.0+1
   flutter_svg: ^2.0.10+1
   flutter_screenutil: ^5.9.3
+  flutter_pin_code_fields: ^2.2.0
+  fluttertoast: ^8.2.6
   lottie: ^3.1.2
   provider: ^6.1.2
-  flutter_pin_code_fields: ^2.2.0
   shared_preferences: ^2.2.3
 
 dev_dependencies:

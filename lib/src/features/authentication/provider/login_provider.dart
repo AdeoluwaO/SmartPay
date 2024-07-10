@@ -7,7 +7,7 @@ class LoginProvider extends ChangeNotifier {
   LoginResponse? get loginData => _loginData;
   bool isLoading = false;
 
-  void loginUser(LoginParams params) async {
+  Future loginUser(LoginParams params) async {
     isLoading = true;
     notifyListeners();
     final response = await AuthData().loginUser(params);

@@ -14,7 +14,7 @@ class SignupProvider extends ChangeNotifier {
 
   bool isLoading = false;
 
-  void getEmailToken(SignupParams params) async {
+  Future getEmailToken(SignupParams params) async {
     isLoading = true;
     notifyListeners();
     final response = await AuthData().getEmailToken(params);
@@ -24,7 +24,7 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmailToken(SignupParams params) async {
+  Future verifyEmailToken(SignupParams params) async {
     isLoading = true;
     notifyListeners();
     final response = await AuthData().verifyEmail(params);
@@ -34,7 +34,8 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createUser(SignupParams params) async {
+  Future createUser(SignupParams params) async {
+    print('PARRAS ARE $params');
     isLoading = true;
     notifyListeners();
     final response = await AuthData().createAccount(params);
